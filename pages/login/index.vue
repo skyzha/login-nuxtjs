@@ -53,6 +53,19 @@ export default {
 
       // GET USER DETAIL
       console.log(uuid)
+      this.$axios.setHeader('Accept', 'application/vnd.api+json')
+      this.$axios.setHeader('Content-Type', 'application/vnd.api+json')
+      this.$axios.setHeader('Authorization', 'Bearer ' + dataToken.access_token)
+      const userDetail = await this.$axios
+        .$get(
+          `https://betelgeuse.gudangada.com//jsonapi/user/user/${uuid.meta.links.me.meta.id}?include=roles`
+        )
+        .catch(function(e) {
+          return e.response
+        })
+
+      // GET PROFILE DETAIL
+      console.log(userDetail)
     }
   }
 }

@@ -35,14 +35,24 @@ export default {
       }
       const querystring = require('querystring')
       const postLogin = querystring.stringify(dataLogin)
-      const accessToken = await this.$axios
+      const dataToken = await this.$axios
         .$post('https://betelgeuse.gudangada.com/oauth/token', postLogin)
         .catch(function(e) {
           return e.response
         })
 
       // GET USER UUID
-      console.log(accessToken)
+      this.$axios.setHeader('Accept', 'application/vnd.api+json')
+      this.$axios.setHeader('Content-Type', 'application/vnd.api+json')
+      this.$axios.setHeader('Authorization', 'Bearer ' + dataToken.access_token)
+      const uuid = await this.$axios
+        .$get('https://betelgeuse.gudangada.com/jsonapi')
+        .catch(function(e) {
+          return e.response
+        })
+
+      // GET USER DETAIL
+      console.log(uuid)
     }
   }
 }

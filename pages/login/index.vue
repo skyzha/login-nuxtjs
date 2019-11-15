@@ -52,7 +52,6 @@ export default {
         })
 
       // GET USER DETAIL
-      console.log(uuid)
       this.$axios.setHeader('Accept', 'application/vnd.api+json')
       this.$axios.setHeader('Content-Type', 'application/vnd.api+json')
       this.$axios.setHeader('Authorization', 'Bearer ' + dataToken.access_token)
@@ -63,9 +62,20 @@ export default {
         .catch(function(e) {
           return e.response
         })
+      console.log(userDetail)
 
       // GET PROFILE DETAIL
-      console.log(userDetail)
+      this.$axios.setHeader('Accept', 'application/vnd.api+json')
+      this.$axios.setHeader('Content-Type', 'application/vnd.api+json')
+      this.$axios.setHeader('Authorization', 'Bearer ' + dataToken.access_token)
+      const userProfile = await this.$axios
+        .$get(
+          `https://betelgeuse.gudangada.com/jsonapi/profile/customer?filter[uid.id]=${uuid.meta.links.me.meta.id}&filter[is_default]=1`
+        )
+        .catch(function(e) {
+          return e.response
+        })
+      console.log(userProfile)
     }
   }
 }
